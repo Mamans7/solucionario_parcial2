@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica #3</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body class="container">
+    <div class="row p-1">
+        <div class="col-4 bg-info m-2 text-center">
+            <div class="">
+                <h3 class="">SEGUNDO PARCIAL TEM-742</h3>
+                <h4 class="">NOMBRE: <b>PEDRO MAMANI TITO</b></h4><br>
+                <h5 class="">CI: 10037520</h5>
+            </div>
+        </div>
+        <div class="col-7 bg-light m-2">
+            <div class="">
+                <form class="form" action="{{ url_for('verificar') }}" method="POST">
+                    <legend>Datos del la Compra</legend>
+                    <table class="table">
+                        <tr>
+                            <td>Descripción:</td>
+                            <td colspan="3"><input type="descripcion" name="descripcion" required></td>
+                        </tr>
+                        <tr>
+                            <td>Cantidad:</td>
+                            <td colspan="3"><input type="number" name="cantidad" required></td>
+                        </tr>
+                        <tr>
+                            <td>Precio:</td>
+                            <td colspan="3"><input type="number" step="0.01" name="precio" required></td>
+                        </tr>
+                        <tr>
+                            <td>Fecha Vencimiento:</td>
+                            <td colspan="3"><input type="date" name="fecha" required></td>
+                        </tr>
+                        <tr>
+                            <td>Categoría:</td>
+                            <td colspan="3">
+                                <select id="categoria" name="categoria" required>
+                          <option value="" disabled selected>Selecciona una opción</option>
+                          <option value="Bebida">Bebida</option>
+                          <option value="Embutido">Embutido</option>
+                          <option value="Fruta">Fruta</option>
+                          <option value="Cereal">Cereal</option>
+                        </select>
+                            </td>
+                        </tr>
+                    </table><br>
+                    <input type="submit" class="btn-success" value="Precesar Compra">
+                </form>
+            </div>
+            <br>
+        </div>
+    </div>
+    <a href="{{ url_for('vaciar') }}"><button class="btn-danger m-2 text-center">Vaciar la lista</button></a><br><br>
+    <div class="container">
+        <h3 class="titulo">Gestion de productos</h3>
+        <table class="table table-striped">
+            {% if datos %}
+            <tr>
+                <th>Id</th>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Fecha</th>
+                <th>Categoría</th>
+                <th>Subtotal</th>
+                <th colspan="2">Acción</th>
+            </tr>
+            {% for item in datos %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.descripcion }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>{{ item.precio }}</td>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.categoria }}</td>
+                <td>{{ item.subtotal}}</td>
+                <td><a href=""><button class="btn-success">Editar</button></a></td>
+                <td><a href="{{ url_for('borrar') }}"><button class="btn-danger">Borrar</button></a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <th colspan="6">TOTAL</th>
+                <th>{{ total }}</th>
+            </tr>
+        </table>
+        {% else %}
+        <p>Los datos estan vacias</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
